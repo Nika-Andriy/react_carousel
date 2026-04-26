@@ -4,7 +4,12 @@ import Carousel from './components/Carousel';
 
 interface State {
   images: string[];
+  step: number;
+  itemWidth: number;
+  frameSize: number;
 }
+
+const animationDuration = 1000;
 
 class App extends React.Component<{}, State> {
   state = {
@@ -20,6 +25,9 @@ class App extends React.Component<{}, State> {
       './img/9.png',
       './img/10.png',
     ],
+    step: 3,
+    itemWidth: 130,
+    frameSize: 3,
   };
 
   render() {
@@ -28,9 +36,31 @@ class App extends React.Component<{}, State> {
     return (
       <div className="App">
         {/* eslint-disable-next-line */}
-        <h1>Carousel with {images.length} images</h1>
+        <h1 data-cy="title">Carousel with {images.length} images</h1>
+        <input
+          for="stepId"
+          className="input"
+          onChange={event => this.setState({ step: +event.target.value })}
+        />
+        <input
+          for="itemId"
+          className="input"
+          onChange={event => this.setState({ itemWidth: +event.target.value })}
+        />
+        <input
+          for="frameId"
+          className="input"
+          onChange={event => this.setState({ frameSize: +event.target.value })}
+        />
 
-        <Carousel />
+        <Carousel
+          images={images}
+          step={this.state.step}
+          itemWidth={this.state.itemWidth}
+          frameSize={this.state.frameSize}
+          animationDuration={animationDuration}
+          infinite={false}
+        />
       </div>
     );
   }
