@@ -53,11 +53,7 @@ const Carousel: React.FC<Props> = ({
       <button
         type="button"
         onClick={() => {
-          if (infinite) {
-            scrollPrev();
-          }
-
-          if (!isDisabledPrev) {
+          if (infinite || !isDisabledPrev) {
             scrollPrev();
           }
         }}
@@ -96,11 +92,7 @@ const Carousel: React.FC<Props> = ({
       <button
         type="button"
         onClick={() => {
-          if (infinite) {
-            scrollNext();
-          }
-
-          if (!isDisabledNext) {
+          if (infinite || !isDisabledPrev) {
             scrollNext();
           }
         }}
