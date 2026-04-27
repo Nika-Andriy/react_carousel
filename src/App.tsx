@@ -41,21 +41,25 @@ class App extends React.Component<{}, State> {
         <h1 data-cy="title">Carousel with {images.length} images</h1>
         <input
           htmlFor="stepId"
+          id="stepId"
           className="input"
           onChange={event => this.setState({ step: +event.target.value })}
         />
         <input
           htmlFor="itemId"
+          id="itemId"
           className="input"
           onChange={event => this.setState({ itemWidth: +event.target.value })}
         />
         <input
           htmlFor="frameId"
+          id="frameId"
           className="input"
           onChange={event => this.setState({ frameSize: +event.target.value })}
         />
         <input
           htmlFor="animationDurationId"
+          id="animationDurationId"
           className="input"
           onChange={event =>
             this.setState({ animationDuration: +event.target.value })
