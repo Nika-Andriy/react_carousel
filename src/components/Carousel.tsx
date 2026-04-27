@@ -10,16 +10,39 @@ type Props = {
   infinite: boolean;
 };
 
-const Carousel: React.FC<Props> = ({ images, itemWidth, frameSize, step }) => {
+const Carousel: React.FC<Props> = ({
+  images,
+  itemWidth = 130,
+  frameSize = 3,
+  step = 3,
+  animationDuration = 1000,
+  infinite = false,
+}) => {
   const [translateX, setTranslateX] = useState(0);
   const gap = 5;
   const maxStartIndex = images.length - frameSize;
   const scrollNext = () => {
-    setTranslateX(prev => Math.min(prev + step, maxStartIndex));
+    setTranslateX(prev => {
+      if (infinite) {
+        if (prev + step > maxStartIndex) {
+          return 0;
+        }
+      }
+
+      return Math.min(prev + step, maxStartIndex);
+    });
   };
 
   const scrollPrev = () => {
-    setTranslateX(prev => Math.max(prev - step, 0));
+    setTranslateX(prev => {
+      if (infinite) {
+        if (prev - step < 0) {
+          return maxStartIndex;
+        }
+      }
+
+      return Math.max(prev - step, 0);
+    });
   };
 
   const isDisabledPrev = translateX === 0;
@@ -30,12 +53,16 @@ const Carousel: React.FC<Props> = ({ images, itemWidth, frameSize, step }) => {
       <button
         type="button"
         onClick={() => {
+          if (infinite) {
+            scrollPrev();
+          }
+
           if (!isDisabledPrev) {
             scrollPrev();
           }
         }}
-        className={`button ${isDisabledPrev ? 'disabled' : ''}`}
-        data-cy="previous"
+        className={`button ${isDisabledPrev && !infinite ? 'disabled' : ''}`}
+        data-cy="prev"
       >
         {'<'}
       </button>
@@ -48,6 +75,7 @@ const Carousel: React.FC<Props> = ({ images, itemWidth, frameSize, step }) => {
           className="Carousel__list"
           style={{
             transform: `translateX(-${translateX * (itemWidth + gap)}px)`,
+            transition: `transform ${animationDuration}ms`,
           }}
         >
           {images.map((img, index) => {
@@ -68,11 +96,15 @@ const Carousel: React.FC<Props> = ({ images, itemWidth, frameSize, step }) => {
       <button
         type="button"
         onClick={() => {
+          if (infinite) {
+            scrollNext();
+          }
+
           if (!isDisabledNext) {
             scrollNext();
           }
         }}
-        className={`button ${isDisabledNext ? 'disabled' : ''}`}
+        className={`button ${isDisabledNext && !infinite ? 'disabled' : ''}`}
         data-cy="next"
       >
         {'>'}

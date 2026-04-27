@@ -7,9 +7,9 @@ interface State {
   step: number;
   itemWidth: number;
   frameSize: number;
+  animationDuration: number;
+  infinite: boolean;
 }
-
-const animationDuration = 1000;
 
 class App extends React.Component<{}, State> {
   state = {
@@ -28,6 +28,8 @@ class App extends React.Component<{}, State> {
     step: 3,
     itemWidth: 130,
     frameSize: 3,
+    animationDuration: 1000,
+    infinite: false,
   };
 
   render() {
@@ -38,19 +40,26 @@ class App extends React.Component<{}, State> {
         {/* eslint-disable-next-line */}
         <h1 data-cy="title">Carousel with {images.length} images</h1>
         <input
-          for="stepId"
+          htmlFor="stepId"
           className="input"
           onChange={event => this.setState({ step: +event.target.value })}
         />
         <input
-          for="itemId"
+          htmlFor="itemId"
           className="input"
           onChange={event => this.setState({ itemWidth: +event.target.value })}
         />
         <input
-          for="frameId"
+          htmlFor="frameId"
           className="input"
           onChange={event => this.setState({ frameSize: +event.target.value })}
+        />
+        <input
+          htmlFor="animationDurationId"
+          className="input"
+          onChange={event =>
+            this.setState({ animationDuration: +event.target.value })
+          }
         />
 
         <Carousel
@@ -58,8 +67,8 @@ class App extends React.Component<{}, State> {
           step={this.state.step}
           itemWidth={this.state.itemWidth}
           frameSize={this.state.frameSize}
-          animationDuration={animationDuration}
-          infinite={false}
+          animationDuration={this.state.animationDuration}
+          infinite={this.state.infinite}
         />
       </div>
     );
